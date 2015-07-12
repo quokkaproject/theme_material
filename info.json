@@ -1,0 +1,12 @@
+{
+    "identifier":   "material",
+    "application":  "quokka",
+    "name":         "Quokka material Design theme",
+    "description":  "Google MDL theme.",
+    "author":       "Bruno Cezar Rocha",
+    "website":      "http://www.quokkaproject.org",
+    "license":      "WTF",
+    "preview":      "preview.png",
+    "doctype":      "html5",
+    "version":      "1.0.0"
+}
