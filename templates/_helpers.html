@@ -46,10 +46,8 @@
 {% endmacro %}
 
 
-{% macro render_author_avatar(author, size=70, css="post-avatar avatar") %}
-<a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
-    <img class="{{css}}" alt="{{ author.display_name }}" height="{{size}}" width="{{size}}" src="{{ author.get_gravatar_email() | gravatar(size=size) }}">
-</a>
+{% macro render_author_avatar(author, size=44, css="minilogo") %}
+<div class="{{css}}" style="background-image: url('{{ author.get_gravatar_email() | gravatar(size=size) }}')"></div>
 {% endmacro %}
 
 
@@ -82,47 +80,51 @@
 </div>
 {% endmacro%}
 
-
-{% macro render_list_item(content) %}
-<section class="post">
-  <header class="post-header">
-     {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
-       {%if content.has_multiple_authors %}
-           {% for author in content.get_authors()|sort(attribute="display_name") %}
-                {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-           {% endfor %} 
-       {%else%}
-          {% if content.created_by.email %}
-              {{render_author_avatar(content.created_by)}}
-          {% endif %}
-       {%endif%}
+{% macro get_title(content) %}
+  {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
+     {% if main_image %}
+       <div class="mdl-card__media mdl-color-text--grey-50" style="background-image: url('{{main_image}}')">
+         <h3><a href="{{ content.get_absolute_url() }}">{{content.title}}</a></h3>
+      </div>
+     {% else %}
+       <div class="mdl-card__media mdl-color-text--grey-50" style="background-color: #263238;">
+         <h3 class="quote"><a href="{{ content.get_absolute_url() }}">{{content.title}}</a></h3>
+      </div>
      {% endif %}
-      <h3><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h3>
-      <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-      </p>
-  </header>
-  <div class="post-description">
-        {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-        {% if main_image %}
-            <img src="{{main_image}}" height="48" width="48" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-        {% endif %}
-      {% endwith %}
-      <p>
+  {% endwith %}
+{% endmacro%}
 
-          {{content.get_summary()|truncate(255)|safe()}} 
-      
-      </p>
+{% macro render_list_item(content, css="") %}
+<div class="mdl-card mdl-cell {{css}}" >
+  {{get_title(content)}}
+  <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+    {{content.get_summary()|truncate(255)|safe()}} 
   </div>
-  <div class="post-meta">
-  <a class="pure-button pure-button-primary button-xsmall" href="{{ content.get_absolute_url()}}">Read more...</a>
+  <div class="mdl-card__s upporting-text meta mdl-color-text--grey-600">
+    {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
+      {%if content.has_multiple_authors %}
+        {% for author in content.get_authors()|sort(attribute="display_name") %}
+          {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
+        {% endfor %} 
+      {%else%}
+        {% if content.created_by.email %}
+          {{render_author_avatar(content.created_by)}}
+        {% endif %}
+      {%endif%}
+    {% endif %}
+    <div>
+      <strong>
+        {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%}
+      </strong>
+      <span><a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</span> 
+    </div>
   </div>
-</section>
+</div>
 {% endmacro %}
 
 {% macro render_list(contents) %}
    {% for content in contents %}
-       {{render_list_item(content)}}
+       {{render_list_item(content, css="mdl-cell--8-col" if loop.first else "mdl-cell--12-col")}}
    {% endfor %}
 {% endmacro %}
 

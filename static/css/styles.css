@@ -1,5 +1,5 @@
 body {
-  background-image: url('http://lorempixel.com/1800/1800/nature/');
+  background-image: url('http://lorempixel.com/1000/1000/people/');
   background-size: cover;
   background-attachment: fixed;
   /* FIXME: Temp. workaround for vertical scrollbars */
@@ -7,7 +7,7 @@ body {
 }
 
 body::before {
-    background-image: url('/_themes/material//images/head.jpg');
+    /*background-image: url('/_themes/material/images/head.jpg');*/
     background-size: cover;
     background-attachment: fixed;
     content: '';
@@ -39,7 +39,7 @@ body .demo-blog {
 }
 
 .demo-blog.mdl-layout .mdl-layout__content {
-  padding-top: 230px;
+  padding-top: 60px;
   position: relative;
   -webkit-overflow-scrolling: touch;
 }
@@ -229,8 +229,8 @@ body .demo-blog {
   border-top-right-radius: 2px;
 }
 .demo-blog .something-else .mdl-card__media img {
-  width: 64px;
-  height: 64px;
+  /*width: 64px;*/
+  /*height: 64px;*/
   margin-bottom: 10px;
 }
 .demo-blog .something-else .mdl-card__supporting-text {
@@ -497,7 +497,7 @@ body .demo-blog {
 .demo-blog .minilogo {
   width: 44px;
   height: 44px;
-  background-image: url('/_themes/material/images/avatar.png');
+  /*background-image: url('/_themes/material/images/avatar.png');*/
   background-position: center;
   background-repeat: no-repeat;
   background-size: 50%;
