@@ -1,114 +1,104 @@
-{% import theme('_menu.html') as menu with context -%}
 <!doctype html>
 <!--
-  Material Design Lite
-  Copyright 2015 Google Inc. All rights reserved.
+    Material Design Lite
+    Copyright 2015 Google Inc. All rights reserved.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-      https://www.apache.org/licenses/LICENSE-2.0
+            https://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License
 -->
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    {% block seo_meta %}
-    <meta name="description" content="{{Config.get('site', 'site_description')}}">
-    <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
-    {% endblock %}
-    {% block meta %}{% endblock %}
+        <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{%block title%}{{Config.get('site', 'site_name', 'The Happiest CMS in the World')}}{% endblock %}</title>
 
-    {%if content %}
-      <link rel="canonical" href="{{content.get_canonical_url()}}"/>
-      <meta name="author" content="{{content.created_by.display_name}}">
-    {% elif channel %}
-      <meta name="author" content="{{Config.get('site', 'site_author')}}">
-      <link rel="canonical" href="{{channel.get_canonical_url()}}"/>
-      <link rel="alternate" type="application/atom+xml" title="{{ channel.title|title }} Posts (Atom 0.3)" href="{{url_for('atom_list', long_slug=channel.long_slug)}}">
-      <link rel="alternate" type="application/rss+xml" title="{{ channel.title|title }} Posts (RSS 2.0)" href="{{ url_for('rss_list', long_slug=channel.long_slug) }}">
-    {% endif %}
-    <link rel="shortcut icon" href="{{theme_static('favicon.ico')}}">
+        {% block seo_meta %}
+        <meta name="description" content="{{Config.get('site', 'site_description')}}">
+        <meta name="keywords" content="{{Config.get('site', 'site_keywords')}}">
+        {% endblock %}
+        {% block meta %}{% endblock %}
 
-    <!-- Add to homescreen for Chrome on Android -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+        <!-- Add to homescreen for Chrome on Android -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="icon" sizes="192x192" href="{{theme_static('images/touch/chrome-touch-icon-192x192.png')}}">
 
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
-    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="{{Config.get('site', 'site_name', 'The Happiest CMS in the World')}}">
 
-    <!-- Tile icon for Win8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
-    <meta name="msapplication-TileColor" content="#3372DF">
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileColor" content="#000">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="{{theme_static('css/material.min.css')}}">
+        <link rel="stylesheet" href="{{theme_static('css/styles.css')}}">
 
-    <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
-    <!--
-    <link rel="canonical" href="http://www.example.com/">
-    -->
-     <title>{%block title%}{{Config.get('site', 'site_name', 'The Happiest CMS in the World')}}{% endblock %}</title>
-    {% block head %}
-    {% endblock head %}
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{theme_static('css/material.min.css')}}">
-    <link rel="stylesheet" href="{{theme_static('css/styles.css')}}">
-    <style>
-    #view-source {
-      position: fixed;
-      display: block;
-      right: 0;
-      bottom: 0;
-      margin-right: 40px;
-      margin-bottom: 40px;
-      z-index: 900;
-    }
-    </style>
-
-     {% block head_css %}{% endblock %}
-    {% block head_js %}{% endblock %}
-    {% include theme('analytics.html') %}
-
-    {% with %}
-        {% set g_s_v = Config.get('site', 'google-site-verification')%}
-        {% if g_s_v %}
-        <meta name="google-site-verification" content="{{g_s_v}}" />
+        <!-- extra meta -->
+        {%if content %}
+        <link rel="canonical" href="{{content.get_canonical_url()}}"/>
+        <meta name="author" content="{{content.created_by.display_name}}">
+        {% elif channel %}
+        <meta name="author" content="{{Config.get('site', 'site_author')}}">
+        <link rel="canonical" href="{{channel.get_canonical_url()}}"/>
+        <link rel="alternate" type="application/atom+xml" title="{{ channel.title|title }} Posts (Atom 0.3)" href="{{url_for('atom_list', long_slug=channel.long_slug)}}">
+        <link rel="alternate" type="application/rss+xml" title="{{ channel.title|title }} Posts (RSS 2.0)" href="{{ url_for('rss_list', long_slug=channel.long_slug) }}">
         {% endif %}
-    {% endwith %}
-  </head>
-  <body>
-    {% block content %}
-    {% endblock %}
-     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <link rel="shortcut icon" href="{{theme_static('favicon.ico')}}">
+
+        {% block head %}
+        {% endblock head %}
+
+        <!-- extra css and js -->
+        {% block head_css %}{% endblock %}
+        {% block head_js %}{% endblock %}
+
+        <!-- analytics and google-site-verification -->
+        {% include theme('analytics.html') %}
+        {% with %}
+            {% set g_s_v = Config.get('site', 'google-site-verification')%}
+            {% if g_s_v %}
+            <meta name="google-site-verification" content="{{g_s_v}}" />
+            {% endif %}
+        {% endwith %}
+    </head>
+    <body>
+        <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded">
+        {% include theme('_header.html') %}
+
+        {% block content %}
+        {% endblock %}
+        </div>
+    </body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="{{theme_static('js/material.min.js')}}"></script>
-  </body>
-  <script>
-    Array.prototype.forEach.call(document.querySelectorAll('.mdl-card__media'), function(el) {
-      var link = el.querySelector('a');
-      if(!link) {
-        return;
-      }
-      var target = link.getAttribute('href');
-      if(!target) {
-        return;
-      }
-      el.addEventListener('click', function() {
-        location.href = target;
-      });
-    });
-  </script>
+    <script>
+        Array.prototype.forEach.call(document.querySelectorAll('.mdl-card__media'), function(el) {
+            var link = el.querySelector('a');
+            if(!link) {
+                return;
+            }
+            var target = link.getAttribute('href');
+            if(!target) {
+                return;
+            }
+            el.addEventListener('click', function() {
+                location.href = target;
+            });
+        });
+    </script>
     {% block bottom_js %}{% endblock %}
     {% block js_footer %}{% endblock %}
 </html>

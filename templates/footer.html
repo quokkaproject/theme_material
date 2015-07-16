@@ -1,7 +1,17 @@
 <footer class="footer">
     <p>
-        <span>Powered by <a href="http://www.quokkaproject.org">Quokka CMS</a></span>
-        &copy; {{Config.get('site', 'site_name')}} &ndash;
-        Based in <a href="https://github.com/PurePelicanTheme/pure">Pure Theme</a>
     </p>
 </footer>
+<footer class="mdl-mini-footer">
+    <div class="mdl-mini-footer--left-section">
+        {% for title, link in Config.get('site', 'social_items', []) %}
+        <button class="mdl-mini-footer--social-btn social-btn social-btn__{{ title }}" onclick="javascript:window.open('{{ link }}', '_blank')"></button>
+        {% endfor %}
+        <button class="mdl-mini-footer--social-btn social-btn social-btn__small" onclick="javascript:window.open('http://smallactsmanifesto.org', '_blank')"></button>
+    </div>
+    <div class="mdl-mini-footer--right-section">
+        <span>Powered by <a href="http://www.quokkaproject.org">Quokka CMS</a></span> &copy; {{Config.get('site', 'site_name')}} &ndash;
+        Based in <a href="http://www.getmdl.io/templates/blog/index.html">Material Theme</a>
+    </div>
+</footer>
+

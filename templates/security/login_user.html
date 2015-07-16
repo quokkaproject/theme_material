@@ -1,27 +1,25 @@
 {% from theme("security/_macros.html") import render_field_with_errors, render_field, render_button %}
 {% extends theme("base.html") %}
 {% block content %}
-<div class="pure-g-r" id="layout">
-    {% include theme('sidebar.html') %}
-    <div class="pure-u-1">
-        <div class="content">
-            <!-- A wrapper for all the blog posts -->
-            <div class="posts">
-              <h1>Login</h1>
+<main>
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__media mdl-color-text--grey-50">
+                <h3><img src="{{ theme_static('img/logo.png') }}"/> Admin</h3>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
               {% include theme("security/_messages.html") %}
-              <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form" class="pure-form pure-form-aligned" role="form">
-                <fieldset>
+              <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
                 {{ login_user_form.hidden_tag() }}
-                {{ render_field_with_errors(login_user_form.email, class="form-control", placeholder="you@domain.com") }}
-                {{ render_field_with_errors(login_user_form.password, class="form-control") }}
-                {{ render_field_with_errors(login_user_form.remember, class='form-control', css_class="pure-checkbox", style="height:14px;") }}
+                {{ render_field(login_user_form.email, class='mdl-textfield__input') }}
+                {{ render_field(login_user_form.password, class='mdl-textfield__input') }}
+                {{ render_field(login_user_form.remember, class='mdl-checkbox__input', material_type='checkbox') }}
                 {{ render_field(login_user_form.next) }}
-                {{ render_button(login_user_form.submit, class="pure-button pure-button-primary") }}
-                </fieldset>
+                {{ render_button(login_user_form.submit, class="mdl-button mdl-js-button mdl-js-ripple-effect") }}
               </form>
               {% include theme("security/_menu.html") %}
             </div>
         </div>
     </div>
-</div>
+</main>
 {% endblock %}

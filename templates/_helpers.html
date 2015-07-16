@@ -9,7 +9,7 @@
        {%if content.has_multiple_authors %}
            {% for author in content.get_authors()|sort(attribute="display_name") %}
                 {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-           {% endfor %} 
+           {% endfor %}
        {%else%}
           {% if content.created_by.email %}
               {{render_author_avatar(content.created_by)}}
@@ -29,8 +29,8 @@
       {% endwith %}
       <p>
 
-          {{content.get_summary()|truncate(255)|safe()}} 
-      
+          {{content.get_summary()|truncate(255)|safe()}}
+
       </p>
   </div>
   <div class="post-meta">
@@ -96,29 +96,31 @@
 
 {% macro render_list_item(content, css="") %}
 <div class="mdl-card mdl-cell {{css}}" >
-  {{get_title(content)}}
-  <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
-    {{content.get_summary()|truncate(255)|safe()}} 
-  </div>
-  <div class="mdl-card__s upporting-text meta mdl-color-text--grey-600">
+    {{get_title(content)}}
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+    {{content.get_summary()|truncate(255)|safe()}}
+    </div>
+    <div class="mdl-card__supporting-text meta">
     {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
       {%if content.has_multiple_authors %}
         {% for author in content.get_authors()|sort(attribute="display_name") %}
           {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-        {% endfor %} 
+        {% endfor %}
       {%else%}
         {% if content.created_by.email %}
           {{render_author_avatar(content.created_by)}}
         {% endif %}
       {%endif%}
     {% endif %}
-    <div>
-      <strong>
-        {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%}
-      </strong>
-      <span><a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</span> 
+    <div class="author">
+        <strong>
+            {% for author in content.get_authors()%}
+            <a href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a>{% if not loop.last %} &middot; {% endif %}
+            {%endfor%}
+        </strong>
+        <span><a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</span>
     </div>
-  </div>
+    </div>
 </div>
 {% endmacro %}
 
@@ -279,7 +281,7 @@
 
 
 {% macro load_page_content(content, truncate=None, sidebar=True, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
-        
+
         {%if sidebar %}
         <div class="sidebar sidebar-article pure-u">
         <header class="header-article">
@@ -310,8 +312,8 @@
                     <h1>{{ content.title }}</h1>
                     {%else%}
                     <h3><a class="post-title" href="{{content.get_absolute_url()}}">{{ content.title }}</a></h3>
-                    {% endif %}      
-                    {% if breadcrumbs %}               
+                    {% endif %}
+                    {% if breadcrumbs %}
                     <p class="post-meta">
                     {{load_breadcrumbs()}}
                     </p>

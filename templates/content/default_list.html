@@ -14,70 +14,32 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded">
-      <main class="mdl-layout__content">
-        <div class="demo-blog__posts mdl-grid">
-          
-          <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop">
+<main>
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop">
             <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600">
-              <img src="{{theme_static('img/logo_black.png')}}">
-              {{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}
+                <img src="{{theme_static('img/logo_black.png')}}">
+                {{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}
             </div>
-            <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-              <div>
-                <strong>Menu</strong>
-              </div>
-              <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-                <button class="mdl-menu__item mdl-js-ripple-effect">About</button>
-                <button class="mdl-menu__item mdl-js-ripple-effect">Message</button>
-                <button class="mdl-menu__item mdl-js-ripple-effect">Favorite</button>
-                <button class="mdl-menu__item mdl-js-ripple-effect">Search</button>
-              </ul>
-              <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                <i class="material-icons">more_vert</i>
-              </button>
-            </div>
-          </div>         
-          <!-- POSTS -->
+        </div>
 
-          {{render_list(contents.items)}}
-          
-          
-         <!--  Pagination -->
+        <!-- POSTS -->
+        {{render_list(contents.items)}}
 
-          <nav class="demo-nav mdl-cell mdl-cell--12-col">
+        <!-- Pagination: TODO!
+        <nav class="demo-nav mdl-cell mdl-cell--12-col">
             <div class="section-spacer"></div>
             <a href="entry.html" class="demo-nav__button">
-              More
-              <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                <i class="material-icons">arrow_forward</i>
-              </button>
+                More
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons">arrow_forward</i>
+                </button>
             </a>
-          </nav>
-        </div>
-         
-        <!-- Footer -->
-
-        <footer class="mdl-mini-footer">
-          <div class="mdl-mini-footer--left-section">
-            <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter"></button>
-            <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger"></button>
-            <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus"></button>
-             <a class="mdl-mini-footer--social-btn social-btn" target="_blank" href="http://smallactsmanifesto.org" title="Small Acts Manifesto">
-                <img src="http://smallactsmanifesto.org/static/images/smallacts-badge-80x15.png" style="border: none;" alt="Small Acts Manifesto" />
-            </a>
-          </div>
-          <div class="mdl-mini-footer--right-section">
-            <button class="mdl-mini-footer--social-btn social-btn__share"><i class="material-icons">share</i></button>
-          </div>
-        </footer>
-      </main>
-      
-      <div class="mdl-layout__obfuscator"></div>
+        </nav>
+        -->
     </div>
-    
-   <!--  <a href="https://github.com/google/material-design-lite/blob/master/templates/blog/" target="_blank" id="view-source" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">View Source</a> -->
-
-
+    <!-- Footer -->
+    {% include theme('footer.html') %}
+</main>
+<div class="mdl-layout__obfuscator"></div>
 {% endblock %}

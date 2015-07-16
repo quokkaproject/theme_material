@@ -1,5 +1,5 @@
 body {
-  background-image: url('http://lorempixel.com/1000/1000/people/');
+  background-image: url('http://lorempixel.com/1000/1000/abstract/');
   background-size: cover;
   background-attachment: fixed;
   /* FIXME: Temp. workaround for vertical scrollbars */
@@ -106,8 +106,11 @@ body .demo-blog {
       -ms-flex-align: center;
           align-items: center;
 }
-.demo-blog .mdl-card__supporting-text strong {
+.demo-blog .mdl-card__supporting-text a {
   font-weight: 400;
+  text-decoration: none;
+  color: #757575;
+  text-transform: capitalize;
 }
 .demo-blog .mdl-card__media ~ .mdl-card__supporting-text {
   min-height: 64px;
@@ -528,12 +531,20 @@ body .demo-blog {
 .social-btn__twitter {
   background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_twitter_black_24dp.png');
 }
-.social-btn__blogger {
+.social-btn__facebook {
   background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_facebook_black_24dp.png');
 }
 .social-btn__gplus {
   background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_gplus_black_24dp.png');
 }
+.social-btn__github {
+  background-image: url('../images/github.png');
+}
+.social-btn__small {
+	background-image: url('http://smallactsmanifesto.org/static/images/smallacts-badge-80x15.png');
+	width: 80px;
+}
+
 .social-btn__share {
   color: rgba(0, 0, 0, 0.54);
   background: transparent;
