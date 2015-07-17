@@ -1,9 +1,16 @@
 {% macro render_field(field, material_type='textfield') %}
     {% if field.type != 'HiddenField' %}
-    <div class="mdl-{{ material_type }} mdl-js-{{ material_type }}">
-      {{ field(**kwargs)|safe }}
-      <label for= "{{ field.id }}" class="mdl-{{ material_type }}__label">{{ field.label }}</label>
-    </div>
+        {% if material_type == 'checkbox' %}
+        <label for="{{field.id}}" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+            <input type="checkbox" id="{{field.id}}" class="mdl-checkbox__input" />
+            <span class="mdl-checkbox__label">{{field.label}}</span>
+        </label>
+        {% else %}
+        <div class="mdl-{{ material_type }} mdl-js-{{ material_type }}">
+          {{ field(**kwargs)|safe }}
+          <label for= "{{ field.id }}" class="mdl-{{ material_type }}__label">{{ field.label }}</label>
+        </div>
+        {% endif %}
     {% else %}
         {{field(**kwargs)|safe}}
     {% endif %}

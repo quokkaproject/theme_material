@@ -561,3 +561,13 @@ body .demo-blog {
   background-color: white;
   box-sizing: border-box;
 }
+
+.form-error{
+	color: #DE3A3A;
+}
+
+.login-footer {
+	margin-top: 0 !important;
+	padding: 0 !important;
+	height: 0 !important;
+}

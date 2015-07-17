@@ -8,16 +8,27 @@
                 <h3><img src="{{ theme_static('img/logo.png') }}"/> Admin</h3>
             </div>
             <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
-              {% include theme("security/_messages.html") %}
-              <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+            {% if login_user_form.errors %}
+                {% for field, error in login_user_form.errors.items() %}
+                <p class="form-error">{{ error[0] }}</p>
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <form class="login-user" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
                 {{ login_user_form.hidden_tag() }}
                 {{ render_field(login_user_form.email, class='mdl-textfield__input') }}
                 {{ render_field(login_user_form.password, class='mdl-textfield__input') }}
                 {{ render_field(login_user_form.remember, class='mdl-checkbox__input', material_type='checkbox') }}
                 {{ render_field(login_user_form.next) }}
-                {{ render_button(login_user_form.submit, class="mdl-button mdl-js-button mdl-js-ripple-effect") }}
-              </form>
-              {% include theme("security/_menu.html") %}
+                <br/>
+                <br/>
+                <br/>
+                {{ render_button(login_user_form.submit, class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect") }}
+                </form>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {% include theme("security/_menu.html") %}
             </div>
         </div>
     </div>
