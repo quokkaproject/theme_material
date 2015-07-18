@@ -2,28 +2,40 @@
 {% extends theme("base.html") %}
 
 {% block content %}
-<div class="pure-g-r" id="layout">
-    {% include theme('sidebar.html') %}
-    <div class="pure-u-1">
-        <div class="content">
-            <!-- A wrapper for all the blog posts -->
-            <div class="posts">
-              <h1>Register</h1>
-              {% include theme("security/_messages.html") %}
-              <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form" class="pure-form pure-form-aligned" role="form">
-                <fieldset>
+<main>
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__media mdl-color-text--grey-50">
+                <h3><img src="{{ theme_static('img/logo.png') }}"/> Admin - Register</h3>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {% if register_user_form.errors %}
+                {% for field, error in register_user_form.errors.items() %}
+                <p class="form-error">{{ error[0] }}</p>
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
                   {{ register_user_form.hidden_tag() }}
-                  {{ render_field_with_errors(register_user_form.email, class="form-control", placeholder="you@domain.com") }}
-                  {{ render_field_with_errors(register_user_form.password, class="form-control") }}
+                  {{ render_field(register_user_form.email, class="mdl-textfield__input") }}
+                  <br/>
+                  {{ render_field(register_user_form.password, class="mdl-textfield__input") }}
+                    <br/>
                   {% if register_user_form.password_confirm %}
-                    {{ render_field_with_errors(register_user_form.password_confirm, class="form-control") }}
+                    {{ render_field(register_user_form.password_confirm, class="mdl-textfield__input") }}
+                    <br/>
                   {% endif %}
-                  {{ render_button(register_user_form.submit, class="pure-button pure-button-primary") }}
-                </fieldset>
-              </form>
-              {% include theme("security/_menu.html") %}
+                  <br/>
+                  <br/>
+                  <br/>
+                  {{ render_button(register_user_form.submit, class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect") }}
+                </form>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {% include theme("security/_menu.html") %}
             </div>
         </div>
     </div>
-</div>
+</main>
 {% endblock %}

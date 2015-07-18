@@ -17,9 +17,9 @@
             <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
                 <form class="login-user" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
                 {{ login_user_form.hidden_tag() }}
-                {{ render_field(login_user_form.email, class='mdl-textfield__input') }}
-                {{ render_field(login_user_form.password, class='mdl-textfield__input') }}
-                {{ render_field(login_user_form.remember, class='mdl-checkbox__input', material_type='checkbox') }}
+                {{ render_field(login_user_form.email, class="mdl-textfield__input") }}
+                {{ render_field(login_user_form.password, class="mdl-textfield__input") }}
+                {{ render_field(login_user_form.remember, class="mdl-checkbox__input", material_type="checkbox") }}
                 {{ render_field(login_user_form.next) }}
                 <br/>
                 <br/>
