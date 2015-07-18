@@ -1,5 +1,15 @@
-
 {% extends theme("base.html") %}
 {% block content %}
-    (404) Not found
+<main>
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__media mdl-color-text--grey-50">
+                <h3><img src="{{ theme_static('img/logo.png') }}"/> - 404 Page Not Found</h3>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <p>Please go back or go to <a href="{{ request.url_root }}">Home</a>
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
