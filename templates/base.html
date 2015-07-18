@@ -75,7 +75,7 @@
         {% endwith %}
     </head>
     <body>
-        <div class="demo-blog mdl-layout mdl-js-layout has-drawer is-upgraded">
+        <div class="demo-blog {% if content %}demo-blog--blogpost{% endif %} mdl-layout mdl-js-layout has-drawer is-upgraded">
         {% include theme('_header.html') %}
 
         {% block content %}

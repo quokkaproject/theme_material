@@ -2,83 +2,10 @@
 <a href="{{ url_for(endpoint, **kwargs) }}">{{ text }}</a>
 {%- endmacro %}
 
-{% macro render_grid_item(content) %}
-<section class="post pure-u-2-5 pure-grid">
-  <header class="post-header">
-     {%if Config.get('site', 'list_avatar_enabled', default="enabled") == "enabled" %}
-       {%if content.has_multiple_authors %}
-           {% for author in content.get_authors()|sort(attribute="display_name") %}
-                {{render_author_avatar(author, size=144 / content.get_authors()|length)}}
-           {% endfor %}
-       {%else%}
-          {% if content.created_by.email %}
-              {{render_author_avatar(content.created_by)}}
-          {% endif %}
-       {%endif%}
-     {% endif %}
-      <h6><a class="post-title" href="{{ content.get_absolute_url() }}">{{ content.title }}</a></h6>
-      <p class="post-meta">
-          By {% for author in content.get_authors()%}<a href="{{url_for('authors.author', author_id=author.username)}}" class="post-author">{{ author.display_name }}</a> &middot;  {%endfor%} tagged {% for tag in content.tags%}<a class="post-category post-category-design" href="{{url_for('tag', tag=tag)}}">{{tag}}</a> {% endfor %} under <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-      </p>
-  </header>
-  <div class="post-description">
-        {% with main_image=content.get_main_image_url(thumb=True, default=None) %}
-        {% if main_image %}
-            <img src="{{main_image}}" height="48" width="48" style="float:left; margin-right: 10px;margin-bottom:10px;"/>
-        {% endif %}
-      {% endwith %}
-      <p>
-
-          {{content.get_summary()|truncate(255)|safe()}}
-
-      </p>
-  </div>
-  <div class="post-meta">
-  <a class="pure-button pure-button-primary button-xsmall" href="{{ content.get_absolute_url()}}">Read more...</a>
-  </div>
-</section>
-{% endmacro %}
-
-{% macro render_grid(contents) %}
-   {% for content in contents %}
-       {{render_grid_item(content)}}
-   {% endfor %}
-{% endmacro %}
-
-
 {% macro render_author_avatar(author, size=44, css="minilogo") %}
 <div class="{{css}}" style="background-image: url('{{ author.get_gravatar_email() | gravatar(size=size) }}')"></div>
 {% endmacro %}
 
-
-{% macro render_author_sidebar(author, size=120, multiple=False) %}
-
-<div {%if multiple%}class="multiple-author-sidebar"{%endif%}>
-  {% if author.email and Config.get('site', 'sidebar_avatar_enabled', default='enabled') == 'enabled' %}
-    {{render_author_avatar(author, size=size, css="article-avatar")}}
-  {% endif %}
-  <h2 class="article-info">{{ author.display_name }}</h2>
-  <ul class="author-social">
-  {% for link in author.links %}
-    <li>
-      <a target="_blank" href="{{link.link}}">
-        <i class="fa fa-lg fa-fw fa-{{link.css_class or 'globe'}}"></i>
-        <strong>{{link.title}}</strong>
-      </a>
-    </li>
-  {%else%}
-     <li>
-      <a target="_blank" href="{{url_for('authors.author', author_id=author.username)}}">
-        <i class="fa fa-lg fa-fw fa-globe"></i>
-        <strong>Author`s Page</strong>
-      </a>
-    </li>
-  {% endfor %}
-  </ul>
-
-  <small class="about-author">{{ author.tagline }}</small>
-</div>
-{% endmacro%}
 
 {% macro get_title(content) %}
   {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
@@ -87,7 +14,7 @@
          <h3><a href="{{ content.get_absolute_url() }}">{{content.title}}</a></h3>
       </div>
      {% else %}
-       <div class="mdl-card__media mdl-color-text--grey-50" style="background-color: #263238;">
+       <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:none;background-color: #263238;">
          <h3 class="quote"><a href="{{ content.get_absolute_url() }}">{{content.title}}</a></h3>
       </div>
      {% endif %}
@@ -133,35 +60,27 @@
 
 {# --- Content areas ----- #}
 {% macro load_share_area(content) %}
+<!-- Facebook sharing -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId={{ Config.get('site', 'facebook_app_id', '') }}&version=v2.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-share-button" data-href="{{ content.get_http_url() }}" data-type="button_count"></div>
 
-<div class="sharing">
-  <p class="post-meta">
-      // Share
-  </p>
-    <!-- Facebook sharing -->
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&appId={{ Config.get('site', 'facebook_app_id', '') }}&version=v2.0";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-    <div class="fb-share-button" data-href="{{ content.get_http_url() }}" data-type="button_count"></div>
+<!-- Google+ sharing -->
+<div class="g-plus alinhar" data-action="share" data-annotation="bubble" data-href="{{ content.get_http_url() }}"></div>
 
-    <!-- Google+ sharing -->
-    <div class="g-plus alinhar" data-action="share" data-annotation="bubble" data-href="{{ content.get_http_url() }}"></div>
-
-    <!-- Twitter sharing -->
-    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="pt" style="margin-bottom: -4px !important;">Tweetar</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-</div>
-
+<!-- Twitter sharing -->
+<a href="https://twitter.com/share" class="twitter-share-button" data-lang="pt" style="margin-bottom: -4px !important;">Tweetar</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 {% endmacro %}
 
 {% macro render_license_area(content) %}
 {% if content.license.title %}
-  <div class="licence">
   {% if content.license.identifier == 'creative_commons_by_nc_nd' %}
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
     <img alt="Licença Creative Commons"
@@ -181,13 +100,11 @@
   property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
   <a rel="license" href="{{content.license.link}}">{{content.license.title}}</a>
   {% endif %}
-  </div>
 {% endif %}
 {% endmacro %}
 
 
 {% macro render_recommend_item(content) %}
-
     <li class="post-header">
       <a class="post-title-small" href="{{ content.get_absolute_url() }}">{{ content.title }}</a>
             <small>
@@ -200,28 +117,25 @@
 
 {% macro load_recommendation_area(content) %}
 
- {% with %}
-   {% set recommendations=content.get_recommendations()%}
-      {% if recommendations %}
-        <div>
-          <p class="post-meta">
-              // You may also like
-          </p>
-         {% for item in recommendations %}
-            {{render_recommend_item(item)}}
-         {% endfor %}
-       </div>
-     {% endif %}
- {% endwith %}
+{% with %}
+    {% set recommendations=content.get_recommendations()%}
+    {% if recommendations %}
+    <div class="mdl-card mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+            <h4 class="mdl-cell mdl-cell--12-col">You may also like</h4>
+            {% for item in recommendations %}
+            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                <div class="section__circle-container__circle mdl-color--primary"></div>
+            </div>
+            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                <h5><a href="{{ item.get_absolute_url() }}">{{ item.title }}</a></h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endwith %}
 
-{% endmacro %}
-
-{% macro load_tags_area(content) %}
- <div>
-  {% for tag in content.tags %}
-      <a href="{{url_for('tag', tag=tag)}}">{{tag}}</a>
-  {% endfor %}
- </div>
 {% endmacro %}
 
 {% macro load_comment_area(content) %}
@@ -280,84 +194,52 @@
 {% endmacro %}
 
 
-{% macro load_page_content(content, truncate=None, sidebar=True, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
-
-        {%if sidebar %}
-        <div class="sidebar sidebar-article pure-u">
-        <header class="header-article">
-            <hgroup>
-              <a href="/" class="back-home"><img src="{{ Config.get('site', 'site_logo_internal', theme_static('img/logo_black.png')) }}" alt="{{Config.get('site', 'site_name')}}"></a>
-
-                 {% if content.has_multiple_authors %}
-                  {%for author in content.get_authors()|sort(attribute="display_name")%}
-                     {{render_author_sidebar(author, size=100 / content.get_authors()|length, multiple=True)}}
-
-                  {% endfor %}
-                 {% else %}
-                 {{render_author_sidebar(content.created_by)}}
-                 {%endif%}
-
-                <p>Published in {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</p>
-                <a href="/" class="back-home">&larr;Home</a>
-            </hgroup>
-        </header>
+{% macro load_page_content(content, truncate=None, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
+<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+    {{ get_title(content) }}
+    <!-- tags
+    <p class="post-meta">
+        // Tags {% for tag in content.tags %}
+            <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
+        {% endfor %}
+    </p>
+    -->
+    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+        <div class="minilogo"></div>
+        <div>
+            <strong>
+            {% for author in content.get_authors()|sort(attribute="display_name")%}
+            {{ author.display_name }}{% if not loop.last%}&middot;{% endif %}
+            {% endfor %}
+            </strong>
+            <span>{{ content.created_at.strftime('%m/%d/%Y') }}</span>
+        </div>
+        <div class="section-spacer"></div>
     </div>
-    {% endif%}
-
-    <div class="pure-u {{container_css}}">
-        <div class="content">
-            <section class="post">
-                <header class="post-header">
-                    {% if not link_in_title %}
-                    <h1>{{ content.title }}</h1>
-                    {%else%}
-                    <h3><a class="post-title" href="{{content.get_absolute_url()}}">{{ content.title }}</a></h3>
-                    {% endif %}
-                    {% if breadcrumbs %}
-                    <p class="post-meta">
-                    {{load_breadcrumbs()}}
-                    </p>
-                    {% endif %}
-                    <p class="post-meta">
-                        // Tags {% for tag in content.tags %}
-                            <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
-                        {% endfor %}
-                    </p>
-                </header>
-
-                 {% with main_image=content.get_main_image_url(thumb=False, default=None) %}
-                      {% if main_image %}
-                            <div style="background-image:url({{main_image}});height:200px;background-repeat: no-repeat;background-position-y: center;">
-                            </div>
-                      {% endif %}
-                 {% endwith %}
-
-            </section>
-
-            {{ content.get_text()|safe() }}
-
-            {% if license %}
-                {{render_license_area(content)}}
-            {% endif %}
-
+    <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+        {{ content.get_text()|safe() }}
+        <div class="mdl-card__actions">
             {%if share %}
                 {{load_share_area(content)}}
+            {% endif %}
+            <br/>
+            <br/>
+            {% if license %}
+                {{render_license_area(content)}}
             {% endif %}
 
             {%if rec%}
                 {{load_recommendation_area(content)}}
             {% endif %}
-
-            {% if comments %}
-                {{ load_comment_area(content) }}
-            {%endif%}
-
-            {%if footer%}
-               <a href="#" class="go-top">Go Top</a>
-               {% include theme('footer.html') %}
-            {%endif%}
         </div>
     </div>
+
+    {% if comments %}
+    <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+        <!-- disqus TODO -->
+    </div>
+    {% endif %}
+</div>
 {% endmacro %}
 
 {# blog list#}

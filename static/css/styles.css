@@ -577,3 +577,10 @@ body .demo-blog {
 		color: rgba(255,255,255, 1);
 	}
 }
+
+.section__circle-container__circle {
+	width: 64px;
+	height: 64px;
+	border-radius: 32px;
+	margin: 8px 0;
+}

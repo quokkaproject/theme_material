@@ -38,10 +38,14 @@
 {% endblock meta %}
 
 {% block content %}
-    <div class="pure-g-r" id="layout">
-      {{ menu.build_nodes(nodes=channels) }}
-      {{load_page_content(content)}}
+<main class="mdl-layout__content">
+    <div class="demo-blog__posts mdl-grid">
+        <div class="demo-blog__posts mdl-grid">
+            {# menu.build_nodes(nodes=channels) #}
+            {{ load_page_content(content) }}
+        </div>
     </div>
+</main>
 {% endblock %}
 
 
