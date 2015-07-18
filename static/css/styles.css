@@ -571,3 +571,9 @@ body .demo-blog {
 	padding: 0 !important;
 	height: 0 !important;
 }
+
+@media screen and (max-width: 850px) {
+	.mdl-layout__drawer-button {
+		color: rgba(255,255,255, 1);
+	}
+}
