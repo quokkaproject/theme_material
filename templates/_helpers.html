@@ -104,34 +104,21 @@ fjs.parentNode.insertBefore(js, fjs);
 {% endmacro %}
 
 
-{% macro render_recommend_item(content) %}
-    <li class="post-header">
-      <a class="post-title-small" href="{{ content.get_absolute_url() }}">{{ content.title }}</a>
-            <small>
-                in <a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-            </small>
-
-    </li>
-{% endmacro %}
-
-
 {% macro load_recommendation_area(content) %}
 
 {% with %}
     {% set recommendations=content.get_recommendations()%}
     {% if recommendations %}
-    <div class="mdl-card mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-            <h4 class="mdl-cell mdl-cell--12-col">You may also like</h4>
-            {% for item in recommendations %}
-            <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                <div class="section__circle-container__circle mdl-color--primary"></div>
-            </div>
-            <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                <h5><a href="{{ item.get_absolute_url() }}">{{ item.title }}</a></h5>
-            </div>
-            {% endfor %}
+    <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+        <h4 class="mdl-cell mdl-cell--12-col meta">You may also like</h4>
+        {% for item in recommendations %}
+        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+            <div class="section__circle-container__circle mdl-color--primary"></div>
         </div>
+        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+            <h5><a href="{{ item.get_absolute_url() }}">{{ item.title }}</a></h5>
+        </div>
+        {% endfor %}
     </div>
     {% endif %}
 {% endwith %}
@@ -140,10 +127,7 @@ fjs.parentNode.insertBefore(js, fjs);
 
 {% macro load_comment_area(content) %}
     {% if content.comments_enabled %}
-            <hr />
-            <p class="post-meta">
-                // Comment
-            </p>
+    <div class="mdl-color-text--primary-contrast mdl-card__supporting-text">
         {% if Config.get('comments', 'system') == 'internal' %}
             <div id="comment-area" data-system="internal" data-path="{{url_for('comments.comment', path=content.long_slug)}}"></div>
         {% elif Config.get('comments', 'system') == 'custom'%}
@@ -156,43 +140,8 @@ fjs.parentNode.insertBefore(js, fjs);
            {% endif %}
         {% endif %}
     {% endif %}
-{% endmacro %}
-
-{% macro load_page_header(content, link=False) %}
-    <div class="page-header">
-      {% if link %}
-      <h1><a href="{{ content.get_absolute_url() }}">
-            {{ content.title }}
-        </a></h1>
-      {% else %}
-      <h1>{{ content.title }}</h1>
-      {% endif %}
     </div>
 {% endmacro %}
-
-{% macro load_page_time(content) %}
-    {%if content.created_by %}
-        {{ content.created_by.name }}
-    {%else%}
-        {{Config.get('site', 'site_author', '')}}
-    {%endif%} at {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}
-{% endmacro %}
-
-
-{% macro load_breadcrumbs() %}
-{% if channel %}
-   <small class="breadcrumb">
-      {%for crumb in channel.get_ancestors()|reverse %}
-          {% if loop.last and not content %}
-          > <span class="active">{{crumb.title}}</span>
-          {% else %}
-          > <span><a href="{{crumb.get_absolute_url()}}">{{crumb.title}}</a></span>
-          {% endif %}
-      {% endfor %}
-   </small>
-{% endif %}
-{% endmacro %}
-
 
 {% macro load_page_content(content, truncate=None, link_in_title=False, breadcrumbs=True, license=True, share=True, rec=True, comments=True, footer=True, container_css="") %}
 <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
@@ -222,21 +171,17 @@ fjs.parentNode.insertBefore(js, fjs);
             {%if share %}
                 {{load_share_area(content)}}
             {% endif %}
-            <br/>
-            <br/>
             {% if license %}
                 {{render_license_area(content)}}
             {% endif %}
-
-            {%if rec%}
-                {{load_recommendation_area(content)}}
-            {% endif %}
         </div>
     </div>
-
+    {% if rec %}
+        {{load_recommendation_area(content)}}
+    {% endif %}
     {% if comments %}
     <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
-        <!-- disqus TODO -->
+        {{ load_comment_area(content) }}
     </div>
     {% endif %}
 </div>

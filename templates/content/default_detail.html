@@ -1,4 +1,4 @@
-{% from theme('_helpers.html') import load_comment_area, load_tags_area, load_share_area, load_recommendation_area, load_page_header, load_page_time, load_page_content  with context %}
+{% from theme('_helpers.html') import load_comment_area, load_tags_area, load_share_area, load_recommendation_area, load_page_content  with context %}
 {% extends theme("base.html") %}
 
 {%block title%} {{content.title}} | {{channel.long_slug.split('/')|join(' | ')}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}

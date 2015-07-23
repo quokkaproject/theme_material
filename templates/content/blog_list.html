@@ -1,4 +1,4 @@
-{% from theme('_helpers.html') import render_blog, render_pagination with context %}
+{% from theme('_helpers.html') import render_list, render_pagination with context %}
 {% extends theme("base.html") %}
 
 {%block title%} {{channel.long_slug.split('/')|join(' | ')}} | {{Config.get('site', 'site_name', 'Quokka site')}} {% endblock %}
@@ -14,19 +14,32 @@
 {% endblock %}
 
 {% block content %}
-<div class="pure-g-r" id="layout">
-    {% include theme('sidebar.html') %}
-    <div class="pure-u-1">
-        {{ menu.build_nodes(nodes=channels) }}
-        <div class="content">
-            <!-- A wrapper for all the blog posts -->
-            
-            <div class="posts">
-                {{render_blog(contents.items)}}
-                {{render_pagination(contents, channel.get_absolute_url())}}
-                {% include theme('footer.html') %}
+<main class="mdl-layout__content">
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop">
+            <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600">
+                <img src="{{theme_static('img/logo_black.png')}}">
+                {{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}
             </div>
         </div>
+
+        <!-- POSTS -->
+        {{render_list(contents.items)}}
+
+        <!-- Pagination: TODO!
+        <nav class="demo-nav mdl-cell mdl-cell--12-col">
+            <div class="section-spacer"></div>
+            <a href="entry.html" class="demo-nav__button">
+                More
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons">arrow_forward</i>
+                </button>
+            </a>
+        </nav>
+        -->
     </div>
-</div>
+    <!-- Footer -->
+    {% include theme('footer.html') %}
+</main>
+<div class="mdl-layout__obfuscator"></div>
 {% endblock %}
