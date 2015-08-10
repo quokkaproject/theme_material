@@ -1,15 +1,31 @@
+{% from "security/_macros.html" import render_field, render_button %}
 {% extends "base.html" %}
 
 {% block content %}
-
-{% from "security/_macros.html" import render_field_with_errors, render_field, render_button %}
-{% include "security/_messages.html" %}
-<h1>Resend confirmation instructions</h1>
-<form class="form-horizontal" role="form" action="{{ url_for_security('send_confirmation') }}" method="POST" name="send_confirmation_form">
-  {{ send_confirmation_form.hidden_tag() }}
-  {{ render_field_with_errors(send_confirmation_form.email, class="form-control") }}
-  {{ render_button(send_confirmation_form.submit, class="btn btn-primary") }}
-</form>
-{% include "security/_menu.html" %}
-
+<main>
+    <div class="demo-blog__posts mdl-grid">
+        <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-card__media mdl-color-text--grey-50">
+                <h3><img src="{{ theme_static('img/logo.png') }}"/> Admin - Reset Password</h3>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {% if register_user_form.errors %}
+                {% for field, error in register_user_form.errors.items() %}
+                <p class="form-error">{{ error[0] }}</p>
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <form class="form-horizontal" role="form" action="{{ url_for_security('send_confirmation' }}" method="POST" name="send_confirmation_form">
+                  {{ send_confirmation_form.hidden_tag() }}
+                  {{ render_field(send_confirmation_form.email, class="mdl-textfield__input") }}
+                  {{ render_button(send_confirmation_form.submit, class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect") }}
+                </form>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {% include "security/_menu.html" %}
+            </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
