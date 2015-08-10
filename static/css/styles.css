@@ -588,3 +588,11 @@ body .demo-blog {
 .material-comments {
 	width: 90%;
 }
+
+.material-comments .mdl-textfield__input {
+	color: #000 !important;
+}
+
+.material-comments .alert {
+	color: green;
+}
