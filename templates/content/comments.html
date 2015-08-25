@@ -1,4 +1,4 @@
-{% from theme("security/_macros.html") import render_field, render_button %}
+{% from theme("security/_macros.html") import render_field %}
 {% if not request.is_xhr %}
 <link rel="stylesheet" href="{{theme_static('css/material.min.css')}}">
 <link rel="stylesheet" href="{{theme_static('css/styles.css')}}">
@@ -30,10 +30,7 @@
         {% endif %}
         <br/>
         {{render_field(form.body, class="mdl-textfield__input", rows="3", columns="90")}}
-
-        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
-        </button>
+        <input class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" id="submit" name="submit" type="submit" value="Send">
     </form>
     {% else %}
     <a href="{{url_for_security('login', next='/{0}.html'.format(path))}}" style="margin-bottom:10px;" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">Login to add a comment</a>
@@ -51,14 +48,14 @@
             <img src="{{ comment.gravatar_email | gravatar(size=64) }}" class="comment__avatar">
             {% endif %}
             <div class="comment__author">
-                <strong>James Splayd</strong>
-                <span>2 days ago</span>
+                <strong>{{ comment.author_name }}</strong>
+                <span>{{ comment.created_at.strftime('%d/%m/%Y %H:%i') }}</span>
             </div>
         </header>
         <div class="comment__text">
             {{comment.body|urlize|markdown}}
         </div>
-        {% for reply in comment.replies.filter(parent="") %}
+        {% for reply in comment.replies.filter(parent='') %}
         <div class="comment__answers">
             <div class="comment">
                 <header class="comment__header">
