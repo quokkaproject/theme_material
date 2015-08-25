@@ -596,6 +596,16 @@ body .demo-blog {
 	color: green;
 }
 
+.material-comments label {
+    font-size: 16px;
+    color: #616161;
+}
+
+.material-comments .auth-value {
+    color: #000;
+    padding: 10px;
+}
+
 #comment-form {
     margin-bottom: 20px;
 }

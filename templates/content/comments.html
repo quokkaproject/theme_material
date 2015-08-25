@@ -16,15 +16,15 @@
         {% if current_user.is_authenticated() %}
           <label for="author_name" >Name</label>
           {{form.author_name(value=current_user.name, type="hidden")}}
-          {{current_user.name}}
+          <p class="auth-value">{{current_user.name}}</p>
         {% else %}
           {{render_field(form.author_name, class="mdl-textfield__input", required="required")}}
         {% endif %}
         <br/>
         {% if current_user.is_authenticated() %}
             <label for="author_email">Email</label>
-            {form.author_email(value=current_user.email, type="hidden")}}
-            {{current_user.email}}
+            {{ form.author_email(value=current_user.email, type="hidden") }}
+            <p class="auth-value">{{ current_user.email }}</p>
         {% else %}
              {{render_field(form.author_email, class="mdl-textfield__input", required="required")}}
         {% endif %}
