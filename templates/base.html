@@ -73,6 +73,11 @@
             <meta name="google-site-verification" content="{{g_s_v}}" />
             {% endif %}
         {% endwith %}
+        <style>
+            body {
+                background-image: url({{ Config.get('site', 'background_image', theme_static('img/bg.jpg'))}});
+            }
+        </style>
     </head>
     <body>
         <div class="demo-blog {% if content %}demo-blog--blogpost{% endif %} mdl-layout mdl-js-layout has-drawer is-upgraded">

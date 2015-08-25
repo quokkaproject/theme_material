@@ -1,5 +1,4 @@
 body {
-  background-image: url('../img/bg.jpg');
   background-size: cover;
   background-attachment: fixed;
   /* FIXME: Temp. workaround for vertical scrollbars */
@@ -595,4 +594,8 @@ body .demo-blog {
 
 .material-comments .alert {
 	color: green;
+}
+
+#comment-form {
+    margin-bottom: 20px;
 }
