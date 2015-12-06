@@ -3,7 +3,7 @@
 {%- endmacro %}
 
 {% macro render_author_avatar(author, size=44, css="minilogo") %}
-<div class="{{css}}" style="background-image: url('{{ author.get_gravatar_email() | gravatar(size=size) }}')"></div>
+<div class="{{css}}" style="background-image: url('{{ author.get_avatar_url(size=size) }}')"></div>
 {% endmacro %}
 
 

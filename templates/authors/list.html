@@ -20,7 +20,7 @@
                         <header class="post-header">
                             <a href="{{url_for('authors.author', author_id=author.username)}}" title="See posts by {{ author.display_name }}">
                                 {% if author.email %}
-                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_gravatar_email() | gravatar(size=120) }}">
+                                    <img class="avatar" alt="{{ author.display_name }}" src="{{ author.get_avatar_url(size=120) }}">
                                 {% endif %}
                             </a>
                             <h3><a class="post-title" href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a></h3>
