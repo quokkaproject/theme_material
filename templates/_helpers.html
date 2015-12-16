@@ -149,7 +149,7 @@ fjs.parentNode.insertBefore(js, fjs);
     <!-- tags
     <p class="post-meta">
         // Tags {% for tag in content.tags %}
-            <a class="post-category" href="{{url_for('tag', tag=tag)}}">{{ tag }}</a>
+            <a class="post-category" href="{{url_for('quokka.core.tag', tag=tag)}}">{{ tag }}</a>
         {% endfor %}
     </p>
     -->
