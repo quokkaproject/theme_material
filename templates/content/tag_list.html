@@ -14,7 +14,7 @@
     <div class="demo-blog__posts mdl-grid">
         <div class="mdl-card something-else mdl-cell mdl-cell--12-col mdl-cell--12-col-desktop">
             <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600">
-                <img src="{{theme_static('img/logo_black.png')}}">
+                <img src="{{ Config.get('site', 'logo_internal', theme_static('img/logo_black.png')) }}">
                 {{Config.get('site', 'site_tagline', '<b>The Happiest CMS in the World!</b>')|safe}}
                 <h3>Contents with the tag "{{request.view_args.tag}}"</h3>
             </div>
