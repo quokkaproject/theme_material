@@ -42,7 +42,7 @@
     <div class="author">
         <strong>
             {% for author in content.get_authors()%}
-            <a href="{{url_for('authors.author', author_id=author.username)}}">{{ author.display_name }}</a>{% if not loop.last %} &middot; {% endif %}
+            <a href="{{url_for('quokka.modules.authors.author', author_id=author.username)}}">{{ author.display_name }}</a>{% if not loop.last %} &middot; {% endif %}
             {%endfor%}
         </strong>
         <span><a href="{{ content.channel.get_absolute_url() }}">{{ content.channel.title }}</a> &middot; {{ content.created_at.strftime('%H:%M of %m/%d/%Y') }}</span>
@@ -88,7 +88,7 @@ fjs.parentNode.insertBefore(js, fjs);
          src="http://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"/></a><br/>
          <a xmlns:dct="http://purl.org/dc/terms/" property="dct:title"
       href="{{content.get_absolute_url()}}">"{{ content.title }}"</a> by <a
-      xmlns:cc="http://creativecommons.org/ns#" href="{{url_for('authors.author', author_id=content.created_by.username)}}"
+      xmlns:cc="http://creativecommons.org/ns#" href="{{url_for('quokka.modules.authors.author', author_id=content.created_by.username)}}"
       property="cc:attributionName" rel="cc:attributionURL">"{{ content.created_by.display_name }}"</a> is licensed under
   <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons -
       Attribution Non Commercial No Derivatives 4.0 Internacional</a>.
